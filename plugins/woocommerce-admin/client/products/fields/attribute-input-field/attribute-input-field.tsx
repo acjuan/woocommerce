@@ -1,9 +1,10 @@
 /**
  * External dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { sprintf, __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { Spinner } from '@wordpress/components';
+import { useState } from '@wordpress/element';
 import {
 	EXPERIMENTAL_PRODUCT_ATTRIBUTES_STORE_NAME,
 	QueryProductAttribute,
@@ -49,13 +50,28 @@ export const AttributeInputField: React.FC< AttributeInputFieldProps > = ( {
 		allItems: Pick< QueryProductAttribute, 'id' | 'name' >[],
 		inputValue: string
 	) => {
-		return allItems.filter(
+		const filteredItems = allItems.filter(
 			( item ) =>
 				filteredAttributeIds.indexOf( item.id ) < 0 &&
 				( item.name || '' )
 					.toLowerCase()
 					.startsWith( inputValue.toLowerCase() )
 		);
+		if (
+			inputValue.length > 0 &&
+			! filteredItems.find(
+				( item ) => item.name.toLowerCase() === inputValue.toLowerCase()
+			)
+		) {
+			return [
+				...filteredItems,
+				{
+					id: -99,
+					name: inputValue,
+				},
+			];
+		}
+		return filteredItems;
 	};
 	const selected: Pick< QueryProductAttribute, 'id' | 'name' > | null = value
 		? {
@@ -74,13 +90,16 @@ export const AttributeInputField: React.FC< AttributeInputFieldProps > = ( {
 			getItemLabel={ ( item ) => item?.name || '' }
 			getItemValue={ ( item ) => item?.id || '' }
 			selected={ selected }
-			onSelect={ ( attribute ) =>
+			onSelect={ ( attribute ) => {
+				if ( attribute.id === -99 ) {
+					return;
+				}
 				onChange( {
 					id: attribute.id,
 					name: attribute.name,
 					options: [],
-				} )
-			}
+				} );
+			} }
 			onRemove={ () => onChange() }
 		>
 			{ ( {
@@ -103,7 +122,15 @@ export const AttributeInputField: React.FC< AttributeInputFieldProps > = ( {
 									item={ item }
 									getItemProps={ getItemProps }
 								>
-									{ item.name }
+									{ index === -99
+										? sprintf(
+												__(
+													'Create "%s"',
+													'woocommerce'
+												),
+												item.name
+										  )
+										: item.name }
 								</MenuItem>
 							) )
 						) }
