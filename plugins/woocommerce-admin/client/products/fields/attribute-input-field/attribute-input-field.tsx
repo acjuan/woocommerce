@@ -17,6 +17,11 @@ import {
 	__experimentalSelectControlMenuItem as MenuItem,
 } from '@woocommerce/components';
 
+/**
+ * Internal dependencies
+ */
+import { CreateAttributeModal } from './create-attribute-modal';
+
 type AttributeInputFieldProps = {
 	value?: ProductAttribute;
 	onChange: (
@@ -36,6 +41,8 @@ export const AttributeInputField: React.FC< AttributeInputFieldProps > = ( {
 	disabled,
 	filteredAttributeIds = [],
 } ) => {
+	const [ addNewAttributeName, setAddNewAttributeName ] =
+		useState< string >();
 	const { attributes, isLoading } = useSelect( ( select: WCDataSelector ) => {
 		const { getProductAttributes, hasFinishedResolution } = select(
 			EXPERIMENTAL_PRODUCT_ATTRIBUTES_STORE_NAME
@@ -81,62 +88,80 @@ export const AttributeInputField: React.FC< AttributeInputFieldProps > = ( {
 		: null;
 
 	return (
-		<SelectControl< Pick< QueryProductAttribute, 'id' | 'name' > >
-			items={ attributes || [] }
-			label={ label || '' }
-			disabled={ disabled }
-			getFilteredItems={ getFilteredItems }
-			placeholder={ placeholder }
-			getItemLabel={ ( item ) => item?.name || '' }
-			getItemValue={ ( item ) => item?.id || '' }
-			selected={ selected }
-			onSelect={ ( attribute ) => {
-				if ( attribute.id === -99 ) {
-					return;
-				}
-				onChange( {
-					id: attribute.id,
-					name: attribute.name,
-					options: [],
-				} );
-			} }
-			onRemove={ () => onChange() }
-		>
-			{ ( {
-				items: renderItems,
-				highlightedIndex,
-				getItemProps,
-				getMenuProps,
-				isOpen,
-			} ) => {
-				return (
-					<Menu getMenuProps={ getMenuProps } isOpen={ isOpen }>
-						{ isLoading ? (
-							<Spinner />
-						) : (
-							renderItems.map( ( item, index: number ) => (
-								<MenuItem
-									key={ item.id }
-									index={ index }
-									isActive={ highlightedIndex === index }
-									item={ item }
-									getItemProps={ getItemProps }
-								>
-									{ index === -99
-										? sprintf(
-												__(
-													'Create "%s"',
-													'woocommerce'
-												),
-												item.name
-										  )
-										: item.name }
-								</MenuItem>
-							) )
-						) }
-					</Menu>
-				);
-			} }
-		</SelectControl>
+		<>
+			<SelectControl< Pick< QueryProductAttribute, 'id' | 'name' > >
+				items={ attributes || [] }
+				label={ label || '' }
+				disabled={ disabled }
+				getFilteredItems={ getFilteredItems }
+				placeholder={ placeholder }
+				getItemLabel={ ( item ) => item?.name || '' }
+				getItemValue={ ( item ) => item?.id || '' }
+				selected={ selected }
+				onSelect={ ( attribute ) => {
+					if ( attribute.id === -99 ) {
+						setAddNewAttributeName( attribute.name );
+						return;
+					}
+					onChange( {
+						id: attribute.id,
+						name: attribute.name,
+						options: [],
+					} );
+				} }
+				onRemove={ () => onChange() }
+			>
+				{ ( {
+					items: renderItems,
+					highlightedIndex,
+					getItemProps,
+					getMenuProps,
+					isOpen,
+				} ) => {
+					return (
+						<Menu getMenuProps={ getMenuProps } isOpen={ isOpen }>
+							{ isLoading ? (
+								<Spinner />
+							) : (
+								renderItems.map( ( item, index: number ) => (
+									<MenuItem
+										key={ item.id }
+										index={ index }
+										isActive={ highlightedIndex === index }
+										item={ item }
+										getItemProps={ getItemProps }
+									>
+										{ item.id === -99
+											? sprintf(
+													/* translators: The name of the new attribute to be created */
+													__(
+														'Create "%s"',
+														'woocommerce'
+													),
+													item.name
+											  )
+											: item.name }
+									</MenuItem>
+								) )
+							) }
+						</Menu>
+					);
+				} }
+			</SelectControl>
+			{ addNewAttributeName && (
+				<CreateAttributeModal
+					initialAttributeName={ addNewAttributeName }
+					onCancel={ () => setAddNewAttributeName( undefined ) }
+					onCreated={ ( newAttribute ) => {
+						onChange( {
+							id: newAttribute.id,
+							name: newAttribute.name,
+							options: [],
+						} );
+						setAddNewAttributeName( undefined );
+					} }
+				/>
+			) }
+		</>
 	);
 };
