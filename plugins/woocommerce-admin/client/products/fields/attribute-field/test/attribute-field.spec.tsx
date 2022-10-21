@@ -14,6 +14,7 @@ let triggerDrag: ( items: Array< { key: string } > ) => void;
 
 jest.mock( '@woocommerce/components', () => ( {
 	__esModule: true,
+	__experimentalSelectControlMenuSlot: () => <div></div>,
 	ListItem: ( { children }: { children: JSX.Element } ) => children,
 	Sortable: ( {
 		onOrderChange,
