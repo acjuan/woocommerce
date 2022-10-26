@@ -43,7 +43,6 @@ use \Automattic\WooCommerce\Internal\Admin\Notes\TestCheckout;
 use \Automattic\WooCommerce\Internal\Admin\Notes\TrackingOptIn;
 use \Automattic\WooCommerce\Internal\Admin\Notes\UnsecuredReportFiles;
 use \Automattic\WooCommerce\Internal\Admin\Notes\UpdateStoreDetails;
-use \Automattic\WooCommerce\Internal\Admin\Notes\WelcomeToWooCommerceForStoreUsers;
 use \Automattic\WooCommerce\Internal\Admin\Notes\WooCommercePayments;
 use \Automattic\WooCommerce\Internal\Admin\Notes\WooCommerceSubscriptions;
 use \Automattic\WooCommerce\Internal\Admin\Notes\WooSubscriptionsNotes;
@@ -116,7 +115,6 @@ class Events {
 		OrderMilestones::class,
 		SellingOnlineCourses::class,
 		UnsecuredReportFiles::class,
-		WelcomeToWooCommerceForStoreUsers::class,
 		WooSubscriptionsNotes::class,
 	);
 
