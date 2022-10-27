@@ -43,6 +43,17 @@
 			}
 		}
 	}
+	&__images:not(.has-images) {
+		.woocommerce-form-file-upload {
+			display: flex;
+			justify-content: center;
+			margin: -4em -2.5em -2.5em;
+			padding: 2em;
+			.woocommerce-media-uploader {
+				margin: 3em;
+			}
+		}
+	}
 	&__image-drop-zone {
 		span {
 			font-weight: 600;
