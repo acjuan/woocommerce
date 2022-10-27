@@ -15,6 +15,7 @@ export { default as EllipsisMenu } from './ellipsis-menu';
 export { default as EmptyContent } from './empty-content';
 export { default as Flag } from './flag';
 export { Form, useFormContext } from './form';
+export { FormFileUpload } from './form-file-upload';
 export { FormSection } from './form-section';
 export type { FormContext, FormRef, FormErrors } from './form';
 export { default as FilterPicker } from './filter-picker';
