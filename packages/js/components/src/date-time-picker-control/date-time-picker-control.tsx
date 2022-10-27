@@ -293,6 +293,9 @@ export const DateTimePickerControl: React.FC< DateTimePickerControlProps > = ( {
 					/>
 				</BaseControl>
 			) }
+			popoverProps={ {
+				className: 'woocommerce-date-time-picker-control__popover',
+			} }
 			renderContent={ () => {
 				const Picker = isDateOnlyPicker ? DatePicker : WpDateTimePicker;
 
