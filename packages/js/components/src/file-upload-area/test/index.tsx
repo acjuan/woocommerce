@@ -3,11 +3,12 @@
  */
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React, { createElement } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
-import FormFileUpload from '../form-file-upload';
+import FileUploadArea from '../file-upload-area';
 
 /**
  * Browser dependencies
@@ -21,7 +22,7 @@ const fakePath = expect.objectContaining( {
 	} ),
 } );
 
-describe( 'FormFileUpload', () => {
+describe( 'FileUploadArea', () => {
 	beforeEach( () => {
 		jest.useFakeTimers();
 	} );
@@ -31,11 +32,11 @@ describe( 'FormFileUpload', () => {
 		jest.useRealTimers();
 	} );
 
-	it( 'should show an Icon Button and a hidden input', () => {
+	it( 'should show a button and a hidden input', () => {
 		render(
-			<FormFileUpload onChange={ () => {} }>
-				My Upload Button
-			</FormFileUpload>
+			<FileUploadArea onUpload={ () => {} }>
+				<button>My Upload Button</button>
+			</FileUploadArea>
 		);
 
 		const button = screen.getByText( 'My Upload Button' );
@@ -52,9 +53,9 @@ describe( 'FormFileUpload', () => {
 		const onChange = jest.fn();
 
 		render(
-			<FormFileUpload onChange={ onChange }>
+			<FileUploadArea onUpload={ onChange }>
 				My Upload Button
-			</FormFileUpload>
+			</FileUploadArea>
 		);
 
 		const file = new File( [ 'hello' ], 'hello.png', {
@@ -79,12 +80,12 @@ describe( 'FormFileUpload', () => {
 		const onChange = jest.fn();
 
 		render(
-			<FormFileUpload
+			<FileUploadArea
 				onClick={ jest.fn( ( e ) => ( e.currentTarget.value = '' ) ) }
 				onChange={ onChange }
 			>
 				My Upload Button
-			</FormFileUpload>
+			</FileUploadArea>
 		);
 
 		const file = new File( [ 'hello' ], 'hello.png', {

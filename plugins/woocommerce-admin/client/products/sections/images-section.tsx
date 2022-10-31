@@ -8,7 +8,7 @@ import {
 	MediaUploader,
 	ImageGallery,
 	ImageGalleryItem,
-	FormFileUpload,
+	FileUploadArea,
 } from '@woocommerce/components';
 import { Card, CardBody, DropZone } from '@wordpress/components';
 import { recordEvent } from '@woocommerce/tracks';
@@ -162,7 +162,7 @@ export const ImagesSection: React.FC = () => {
 							</CardBody>
 						) : (
 							<CardBody>
-								<FormFileUpload
+								<FileUploadArea
 									accept="image/*"
 									multiple={ true }
 									onUpload={ ( files: MediaItem[] ) => {
@@ -213,7 +213,7 @@ export const ImagesSection: React.FC = () => {
 											</>
 										}
 									/>
-								</FormFileUpload>
+								</FileUploadArea>
 							</CardBody>
 						) }
 					</div>

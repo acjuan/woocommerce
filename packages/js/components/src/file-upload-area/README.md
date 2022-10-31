@@ -1,19 +1,19 @@
-# FormFileUpload
+# FileUploadArea
 
-FormFileUpload is a component that allows users to select files from their local device.
+FileUploadArea is a component that allows users to set an area as clickable to upload files from their local device.
 
 ## Usage
 
 ```jsx
-import { FormFileUpload } from '@wordpress/components';
+import { FileUploadArea } from '@wordpress/components';
 
-const MyFormFileUpload = () => (
-	<FormFileUpload
+const MyFileUploadArea = () => (
+	<FileUploadArea
 		accept="image/*"
 		onChange={ ( event ) => console.log( event.currentTarget.files ) }
 	>
 		Upload
-	</FormFileUpload>
+	</FileUploadArea>
 );
 ```
 
@@ -36,14 +36,6 @@ Children are passed as children of `Button`.
 -   Type: `Boolean`
 -   Required: No
 
-### icon
-
-The icon to render. Supported values are: Dashicons (specified as strings), functions, WPComponent instances and `null`.
-
--   Type: `String|Function|WPComponent|null`
--   Required: No
--   Default: `null`
-
 ### multiple
 
 Whether to allow multiple selection of files or not.
@@ -61,19 +53,13 @@ Select files will be available in `event.currentTarget.files`.
 -   Type: `Function`
 -   Required: Yes
 
-### onClick
-
-Callback function passed directly to the `input` file element.
-
-This can be useful when you want to force a `change` event to fire when the user chooses the same file again. To do this, set the target value to an empty string in the `onClick` function.
-
 ```jsx
-<FormFileUpload
+<FileUploadArea
 	onClick={ ( event ) => ( event.target.value = '' ) }
 	onChange={ onChange }
 >
 	Upload
-</FormFileUpload>
+</FileUploadArea>
 ```
 
 -   Type: `Function`

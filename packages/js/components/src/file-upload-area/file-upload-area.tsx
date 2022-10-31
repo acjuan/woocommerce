@@ -3,24 +3,39 @@
  */
 import { useRef } from '@wordpress/element';
 import { createElement } from 'react';
-import { uploadMedia as wpUploadMedia } from '@wordpress/media-utils';
+import type { InputHTMLAttributes, ReactNode } from 'react';
+import {
+	MediaItem,
+	UploadMediaOptions,
+	UploadMediaErrorCode,
+	uploadMedia as wpUploadMedia,
+} from '@wordpress/media-utils';
 
-/**
- * Internal dependencies
- */
-import type { FormFileUploadProps, WordPressComponentProps } from './types';
+type FileUploadAreaProps = {
+	accept?: InputHTMLAttributes< HTMLInputElement >[ 'accept' ];
+	children?: ReactNode;
+	multiple?: InputHTMLAttributes< HTMLInputElement >[ 'multiple' ];
+	maxUploadFileSize?: number;
+	onError?: ( error: {
+		code: UploadMediaErrorCode;
+		message: string;
+		file: File;
+	} ) => void;
+	onUpload?: ( files: MediaItem[] ) => void;
+	render?: ( arg: { openFileDialog: () => void } ) => ReactNode;
+	uploadMedia?: ( options: UploadMediaOptions ) => Promise< void >;
+};
 
-export function FormFileUpload( {
+export function FileUploadArea( {
 	accept,
 	children,
 	multiple = false,
 	maxUploadFileSize = 10000000,
 	onError = () => null,
 	onUpload = () => null,
-	onClick,
 	render,
 	uploadMedia = wpUploadMedia,
-}: WordPressComponentProps< FormFileUploadProps, 'button', false > ) {
+}: FileUploadAreaProps ) {
 	const ref = useRef< HTMLInputElement >( null );
 	const openFileDialog = () => {
 		ref.current?.click();
@@ -65,11 +80,10 @@ export function FormFileUpload( {
 						maxUploadFileSize,
 					} );
 				} }
-				onClick={ onClick }
 				data-testid="form-file-upload-input"
 			/>
 		</div>
 	);
 }
 
-export default FormFileUpload;
+export default FileUploadArea;
