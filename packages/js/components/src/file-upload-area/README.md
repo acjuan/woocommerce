@@ -10,7 +10,7 @@ import { FileUploadArea } from '@wordpress/components';
 const MyFileUploadArea = () => (
 	<FileUploadArea
 		accept="image/*"
-		onChange={ ( event ) => console.log( event.currentTarget.files ) }
+		onUpload={ ( files ) => console.log( files ) }
 	>
 		Upload
 	</FileUploadArea>
@@ -19,55 +19,11 @@ const MyFileUploadArea = () => (
 
 ## Props
 
-The component accepts the following props. Props not included in this set will be passed to the `Button` component.
-
-### accept
-
-A string passed to `input` element that tells the browser which file types can be upload to the upload by the user use. e.g: `image/*,video/*`.
-More information about this string is available in https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Unique_file_type_specifiers.
-
--   Type: `String`
--   Required: No
-
-### children
-
-Children are passed as children of `Button`.
-
--   Type: `Boolean`
--   Required: No
-
-### multiple
-
-Whether to allow multiple selection of files or not.
-
--   Type: `Boolean`
--   Required: No
--   Default: `false`
-
-### onChange
-
-Callback function passed directly to the `input` file element.
-
-Select files will be available in `event.currentTarget.files`.
-
--   Type: `Function`
--   Required: Yes
-
-```jsx
-<FileUploadArea
-	onClick={ ( event ) => ( event.target.value = '' ) }
-	onChange={ onChange }
->
-	Upload
-</FileUploadArea>
-```
-
--   Type: `Function`
--   Required: No
-
-### render
-
-Optional callback function used to render the UI. If passed, the component does not render the default UI (a button) and calls this function to render it. The function receives an object with property `openFileDialog`, a function that, when called, opens the browser native file upload modal window.
-
--   Type: `Function`
--   Required: No
+| Name       | Type      | Default      | Description                                                                                                                                             |
+| ---------- | --------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `accept`   | string    | `null`       | A string that is passed to the `input` element and tells the browser which file types can be uploaded by the user. e.g: `image/*,video/*`.              |
+| `children` | ReactNode | `null`       | Children are passed as children of `div`.                                                                                                               |
+| `multiple` | bool      | `null`       | Whether to allow multiple selection of files or not.                                                                                                    |
+| `onError`  | Function  | `() => null` | Callback function to run when an error occurs                                                                                                           |
+| `onUpload` | Function  | `() => null` | Callback function to run when an upload occurs aftering dragging and dropping files                                                                     |
+| `render`   | function  | `null`       | Optional callback function used to render the UI. If passed, the component does not render the default UI (a div) and calls this function to render it. |
