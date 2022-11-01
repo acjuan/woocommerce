@@ -16,6 +16,7 @@ import { useSelect } from '@wordpress/data';
  * Internal dependencies
  */
 import { getProductTitle } from './utils/get-product-title';
+import { ProductStatusBadge } from './product-status-badge';
 import { WooHeaderPageTitle } from '~/header/utils';
 
 export const ProductTitle: React.FC = () => {
@@ -36,7 +37,10 @@ export const ProductTitle: React.FC = () => {
 
 	const title = getProductTitle( values.name, values.type, persistedName );
 
-	return <WooHeaderPageTitle>{ title }</WooHeaderPageTitle>;
+	return <WooHeaderPageTitle>
+        { title }
+        <ProductStatusBadge />
+    </WooHeaderPageTitle>;
 };
 
 registerPlugin( 'woocommerce-product-title', {
