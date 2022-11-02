@@ -167,6 +167,9 @@ export const ImagesSection: React.FC = () => {
 									multiple={ true }
 									onUpload={ ( files: MediaItem[] ) => {
 										if ( files[ 0 ].id ) {
+											recordEvent(
+												'product_images_add_via_file_upload_area'
+											);
 											setValue( 'images', [
 												...images,
 												...files,
